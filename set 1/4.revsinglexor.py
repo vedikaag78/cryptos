@@ -17,22 +17,32 @@ def score_by(input_text):
 
     return sum([character_frequencies.get(chr(itext) ,0) for itext in input_text.lower() ])
 
-def main():
-    s = input("Enter the hex code:")
-    s = bytes.fromhex(s)
-    all_text = []
-    for i in range(256):
-        text = single_xor(s,i)
-        score = score_by(text)
-        data = {
-          'text': text,
-          'score': score,
-          'key': i
-        }
-        all_text.append(data)
-    result = sorted(all_text, key = lambda x : x['score'],reverse= True)[0]
-    for ans in result:
-        print(result[ans])
 
-if __name__ == "__main__":
-    main()
+
+
+def rev_xord(text_b):
+    right_text = []
+    for key in range(0,256):
+        mess = single_xor(text_b,key)
+        score = score_by(mess)
+        data = {
+          'message': mess,
+          'score': score,
+          'key': key
+        }
+    right_text.append(data)
+    return sorted(right_text, key = lambda x : x['score'],reverse= True)[0]
+
+
+def main():
+    text = open('4.txt').read().splitlines()
+    all_text= []
+    for i in text:
+     text_byte = bytes.fromhex(i)
+     all_text.append(rev_xord(text_byte))
+    result = sorted(all_text, key = lambda x: x['score'], reverse= True)[0]
+    for r in result:
+     print(result[r])   
+
+if __name__ == '__main__':
+    main()    
