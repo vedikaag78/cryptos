@@ -30,7 +30,7 @@ def rev_xord(text_b):
           'score': score,
           'key': key
         }
-    right_text.append(data)
+        right_text.append(data)
     return sorted(right_text, key = lambda x : x['score'],reverse= True)[0]
 
 
