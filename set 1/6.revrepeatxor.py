@@ -26,7 +26,7 @@ def score_by(input_text):
 
     return sum([character_frequencies.get(chr(itext) ,0) for itext in input_text.lower() ])
 
-def bruteforce_sor(s):
+def bruteforce_sxor(s):
    all_text = []
    for i in range(256):
         text = single_xor(s,i)
@@ -60,17 +60,17 @@ def break_xor(x):
             'average_distance': sum(distances)/len(distances)
         }
         avg_distances.append(result)
-    possible_key_lengths = sorted([ avg_distances , key = lambda x:x['average_distance'])[0]
+    possible_key_lengths = sorted(avg_distances , key = lambda x:x['average_distance'])[0]
     possible_text = []
     keyz = b''
     possible_key_length = possible_key_lengths['key']
     for i in range(possible_key_length):
       block = b''
       for j in range(0,len(x), possible_key_length):
-        block + = bytes([x[j]])
+        block += bytes([x[j]])
       keyz += bytes([bruteforce_sxor(block)['key']]) 
     possible_text.append((repeating_key_xor(x,keyz), keyz)) 
-    return max(possible_text, key=lambda x: get_english_score(x[0]))
+    return max(possible_text, key=lambda x: score_by(x[0]))
 
 
 
